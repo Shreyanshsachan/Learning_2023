@@ -1,47 +1,47 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct Student {
-    int rollno;
-    char name[20];
-    float marks;
+    int rollNumber;
+    char name[50];
+    int age;
 };
 
-void swap(struct Student* a, struct Student* b) {
-    struct Student temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-void sortArray(struct Student* students, int size) {
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (students[j].marks < students[j + 1].marks) {
-                swap(&students[j], &students[j + 1]);
-            }
-        }
-    }
-}
-
-void displayArray(const struct Student* students, int size) {
-    printf("Array of Structures:\n");
-    for (int i = 0; i < size; i++) {
-        printf("Student %d - Roll No: %d, Name: %s, Marks: %.2f\n",
-               i + 1, students[i].rollno, students[i].name, students[i].marks);
-    }
-}
-
 int main() {
-    struct Student students[] = {
-        {1001, "John", 95.5},
-        {1002, "Alice", 88.0},
-        {1003, "Bob", 92.3}
-    };
+    int n;
+    struct Student* students;
 
-    int size = sizeof(students) / sizeof(struct Student);
+    printf("Enter the number of students: ");
+    scanf("%d", &n);
 
-    sortArray(students, size);
+    students = (struct Student*)malloc(n * sizeof(struct Student));
+    if (students == NULL) {
+        printf("Memory allocation failed!\n");
+        return 1;
+    }
 
-    displayArray(students, size);
+    for (int i = 0; i < n; i++) {
+        printf("\nEnter details for Student %d:\n", i + 1);
+
+        printf("Enter Roll Number: ");
+        scanf("%d", &(students[i].rollNumber));
+
+        printf("Enter Name: ");
+        scanf("%s", students[i].name);
+
+        printf("Enter Age: ");
+        scanf("%d", &(students[i].age));
+    }
+
+    printf("\nStored Data for %d Students:\n", n);
+    for (int i = 0; i < n; i++) {
+        printf("\nDetails of Student %d:\n", i + 1);
+        printf("Roll Number: %d\n", students[i].rollNumber);
+        printf("Name: %s\n", students[i].name);
+        printf("Age: %d\n", students[i].age);
+    }
+
+    free(students);
 
     return 0;
 }

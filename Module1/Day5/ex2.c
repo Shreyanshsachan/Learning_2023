@@ -1,42 +1,57 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-struct Student {
-    int rollno;
-    char name[20];
-    float marks;
+struct Complex {
+    double real;
+    double imag;
 };
 
-void initializeArray(struct Student* students, int size) {
-    for (int i = 0; i < size; i++) {
-        students[i].rollno = 0;
-        strcpy(students[i].name, "");
-        students[i].marks = 0.0;
-    }
+
+void readComplex(struct Complex* num) {
+    printf("Enter the real part: ");
+    scanf("%lf", &(num->real));
+
+    printf("Enter the imaginary part: ");
+    scanf("%lf", &(num->imag));
+}
+
+void writeComplex(const struct Complex* num) {
+    printf("Complex number: %.2f + %.2fi\n", num->real, num->imag);
+}
+
+struct Complex addComplex(const struct Complex* num1, const struct Complex* num2) {
+    struct Complex result;
+    result.real = num1->real + num2->real;
+    result.imag = num1->imag + num2->imag;
+    return result;
+}
+
+struct Complex multiplyComplex(const struct Complex* num1, const struct Complex* num2) {
+    struct Complex result;
+    result.real = (num1->real * num2->real) - (num1->imag * num2->imag);
+    result.imag = (num1->real * num2->imag) + (num1->imag * num2->real);
+    return result;
 }
 
 int main() {
-    int size;
-    struct Student* students;
+    struct Complex num1, num2, sum, product;
 
-    printf("Enter the number of students: ");
-    scanf("%d", &size);
+    printf("Reading Complex Number 1:\n");
+    readComplex(&num1);
 
-    students = (struct Student*)malloc(size * sizeof(struct Student));
-    if (students == NULL) {
-        printf("Memory allocation failed!\n");
-        return 1;
-    }
+    printf("\nReading Complex Number 2:\n");
+    readComplex(&num2);
 
-    initializeArray(students, size);
+    printf("\nComplex Numbers:\n");
+    writeComplex(&num1);
+    writeComplex(&num2);
 
-    printf("\nInitialized Array of Structures:\n");
-    for (int i = 0; i < size; i++) {
-        printf("Student %d - Roll No: %d, Name: %s, Marks: %.2f\n", i + 1, students[i].rollno, students[i].name, students[i].marks);
-    }
+    sum = addComplex(&num1, &num2);
+    printf("\nSum of Complex Numbers:\n");
+    writeComplex(&sum);
 
-    free(students);
+    product = multiplyComplex(&num1, &num2);
+    printf("\nProduct of Complex Numbers:\n");
+    writeComplex(&product);
 
     return 0;
 }

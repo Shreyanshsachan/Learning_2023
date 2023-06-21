@@ -1,43 +1,49 @@
 #include <stdio.h>
-#include <string.h>
 
-struct Student {
-    int rollno;
-    char name[20];
-    float marks;
+struct Person {
+    char name[50];
+    int age;
 };
 
-void searchByName(const struct Student* students, int size, const char* name) {
-    int found = 0;
 
-    for (int i = 0; i < size; i++) {
-        if (strcmp(students[i].name, name) == 0) {
-            printf("Student Found:\n");
-            printf("Roll No: %d, Name: %s, Marks: %.2f\n",
-                   students[i].rollno, students[i].name, students[i].marks);
-            found = 1;
-            break;
-        }
-    }
+void swapFields(struct Person* person1, struct Person* person2) {
 
-    if (!found) {
-        printf("Student with name '%s' not found.\n", name);
-    }
+    char tempName[50];
+    strcpy(tempName, person1->name);
+    strcpy(person1->name, person2->name);
+    strcpy(person2->name, tempName);
+
+  
+    int tempAge = person1->age;
+    person1->age = person2->age;
+    person2->age = tempAge;
 }
 
 int main() {
-    struct Student students[] = {
-        {1001, "John", 95.5},
-        {1002, "Alice", 88.0},
-        {1003, "Bob", 92.3}
-    };
+    struct Person person1, person2;
 
-    int size = sizeof(students) / sizeof(struct Student);
 
-    char searchName[20];
-    printf("Enter the name to search: ");
-    scanf("%s", searchName);
-    searchByName(students, size, searchName);
+    printf("Enter name for person 1: ");
+    scanf("%s", person1.name);
+
+    printf("Enter age for person 1: ");
+    scanf("%d", &person1.age);
+
+    printf("\nEnter name for person 2: ");
+    scanf("%s", person2.name);
+
+    printf("Enter age for person 2: ");
+    scanf("%d", &person2.age);
+
+    printf("\nBefore swapping:\n");
+    printf("Person 1 - Name: %s, Age: %d\n", person1.name, person1.age);
+    printf("Person 2 - Name: %s, Age: %d\n", person2.name, person2.age);
+
+    swapFields(&person1, &person2);
+
+    printf("\nAfter swapping:\n");
+    printf("Person 1 - Name: %s, Age: %d\n", person1.name, person1.age);
+    printf("Person 2 - Name: %s, Age: %d\n", person2.name, person2.age);
 
     return 0;
 }

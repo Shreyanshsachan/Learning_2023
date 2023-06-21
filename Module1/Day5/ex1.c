@@ -1,62 +1,38 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-struct Student {
-    int rollno;
-    char name[20];
-    float marks;
+struct Box {
+    double length;
+    double width;
+    double height;
 };
 
-void initializeArray(struct Student* students, int size, const char* input) {
-    char* token;
-    char* context;
-    int count = 0;
+double calculateVolume(struct Box* box) {
+    return box->length * box->width * box->height;
+}
 
-    token = strtok_s(input, " ", &context);
-    while (token != NULL && count < size) {
-        students[count].rollno = atoi(token);
-
-        token = strtok_s(NULL, " ", &context);
-        strcpy(students[count].name, token);
-
-        token = strtok_s(NULL, " ", &context);
-        students[count].marks = atof(token);
-
-        token = strtok_s(NULL, " ", &context);
-        count++;
-    }
+double calculateSurfaceArea(struct Box* box) {
+    double length = box->length;
+    double width = box->width;
+    double height = box->height;
+    
+    return 2 * (length * width + length * height + width * height);
 }
 
 int main() {
-    int size;
-    char input[100];
-    struct Student* students;
+    
+    struct Box myBox = { 5.0, 3.0, 4.0 };
 
-    printf("Enter the number of students: ");
-    scanf("%d", &size);
+    
+    struct Box* boxPtr = &myBox;
 
-    students = (struct Student*)malloc(size * sizeof(struct Student));
-    if (students == NULL) {
-        printf("Memory allocation failed!\n");
-        return 1;
-    }
+    
+    double volume = boxPtr->length * boxPtr->width * boxPtr->height;
 
-    fflush(stdin);
+    
+    double surfaceArea = 2 * (boxPtr->length * boxPtr->width + boxPtr->length * boxPtr->height + boxPtr->width * boxPtr->height);
 
-    printf("Enter the input string: ");
-    fgets(input, sizeof(input), stdin);
-    input[strcspn(input, "\n")] = '\0'; 
-
-    initializeArray(students, size, input);
-
-    printf("\nInitialized Array of Structures:\n");
-    for (int i = 0; i < size; i++) {
-        printf("Student %d - Roll No: %d, Name: %s, Marks: %.2f\n", i + 1, students[i].rollno, students[i].name, students[i].marks);
-    }
-
-    // Free the dynamically allocated memory
-    free(students);
+    printf("Volume of the box: %.2f\n", volume);
+    printf("Surface area of the box: %.2f\n", surfaceArea);
 
     return 0;
 }

@@ -1,29 +1,36 @@
 #include <stdio.h>
 
-struct Student {
-    int rollno;
-    char name[20];
-    float marks;
+
+struct Time {
+    int hours;
+    int minutes;
+    int seconds;
 };
 
-void displayArray(const struct Student* students, int size) {
-    printf("Array of Structures:\n");
-    for (int i = 0; i < size; i++) {
-        printf("Student %d - Roll No: %d, Name: %s, Marks: %.2f\n",
-               i + 1, students[i].rollno, students[i].name, students[i].marks);
-    }
+
+void calculateTimeDifference(struct Time t1, struct Time t2, struct Time* diff) {
+    int seconds1 = t1.hours * 3600 + t1.minutes * 60 + t1.seconds;
+    int seconds2 = t2.hours * 3600 + t2.minutes * 60 + t2.seconds;
+    int difference = seconds2 - seconds1;
+
+    diff->hours = difference / 3600;
+    difference %= 3600;
+    diff->minutes = difference / 60;
+    diff->seconds = difference % 60;
 }
 
 int main() {
-    struct Student students[] = {
-        {1001, "John", 95.5},
-        {1002, "Alice", 88.0},
-        {1003, "Bob", 92.3}
-    };
+    struct Time startTime, endTime, diff;
 
-    int size = sizeof(students) / sizeof(struct Student);
+    printf("Enter start time (hours minutes seconds): ");
+    scanf("%d %d %d", &startTime.hours, &startTime.minutes, &startTime.seconds);
 
-    displayArray(students, size);
+    printf("Enter end time (hours minutes seconds): ");
+    scanf("%d %d %d", &endTime.hours, &endTime.minutes, &endTime.seconds);
+
+    calculateTimeDifference(startTime, endTime, &diff);
+
+    printf("\nTime Difference: %d hours, %d minutes, %d seconds\n", diff.hours, diff.minutes, diff.seconds);
 
     return 0;
 }
